@@ -2,6 +2,20 @@
 
 A Polymer 2.0 element to store data via localForage.
 
+## Example
+```html
+<paper-input label="First Name" value="{{app.first_name}}"></paper-input>
+<paper-input label="Last Name" value="{{app.last_name}}"></paper-input>
+<br>
+<paper-checkbox checked="{{app.over18}}">18 Years or Older</paper-checkbox>
+<app-localforage
+        key="example_name"
+        data="{{app}}"
+        config='{"name":"wc_example"}'
+        default-value='{"over18":true}'>
+</app-localforage>
+```
+
 ## Install the Polymer-CLI
 
 First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your element locally.
