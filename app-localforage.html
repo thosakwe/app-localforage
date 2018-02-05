@@ -92,7 +92,9 @@
 
         initializeStoredValue() {
           this.__store = localforage.createInstance(this.config || {});
-          return super.initializeStoredValue();
+          return super.initializeStoredValue().then(() => {
+            this.getStoredValue(this.key);
+          });
         }
       }
 
