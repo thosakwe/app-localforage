@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>app-localforage demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+    <link rel="import" href="../../paper-input/paper-input.html">
+    <link rel="import" href="../app-localforage.html">
+
+    <custom-style>
+        <style is="custom-style" include="demo-pages-shared-styles">
+        </style>
+    </custom-style>
+</head>
+<body>
+<div class="vertical-section-container centered">
+    <h3>Basic app-localforage demo</h3>
+    <demo-snippet>
+        <template>
+            <dom-bind>
+                <template>
+                    <paper-input label="First Name" value="{{app.first_name}}"></paper-input>
+                    <paper-input label="Last Name" value="{{app.last_name}}"></paper-input>
+                    <br>
+                    <paper-checkbox checked="{{app.over18}}">18 Years or Older</paper-checkbox>
+                    <app-localforage
+                            key="example_name"
+                            data="{{app}}"
+                            config='{"name":"wc_example"}'
+                            default-value='{"over18":true}'>
+                    </app-localforage>
+                </template>
+            </dom-bind>
+        </template>
+    </demo-snippet>
+</div>
+</body>
+</html>

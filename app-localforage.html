@@ -1,0 +1,101 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../app-storage/app-storage-behavior.html">
+<script src="../localforage/dist/localforage.min.js"></script>
+
+<dom-module id="app-localforage">
+    <script>
+      /**
+       * `app-localforage`
+       * A Polymer 2.0 element to store data via localForage.
+       *
+       * @customElement
+       * @polymer
+       * @demo demo/index.html
+       */
+      class AppLocalForage extends Polymer.mixinBehaviors(Polymer.AppStorageBehavior, Polymer.Element) {
+        static get is() {
+          return 'app-localforage';
+        }
+
+        static get properties() {
+          return {
+            /**
+             * Specifies configuration for the underlying localForage instance.
+             * Use this to explicitly specify a store.
+             *
+             * [Docs](https://github.com/localForage/localForage#multiple-instances).
+             */
+            config: {
+              type: Object,
+              readOnly: true,
+              value: {}
+            },
+
+            /**
+             * A default value to fall back upon if there is no data in local storage.
+             */
+            defaultValue: {
+              readOnly: true,
+            },
+          };
+        }
+
+        static get observers() {
+          return [
+            '__configChanged(config)',
+            '__keyChanged(key)',
+            '__valueChanged(value)'
+          ];
+        }
+
+        __configChanged() {
+          this.initializeStoredValue();
+        }
+
+        __keyChanged() {
+          this.initializeStoredValue();
+        }
+
+        getStoredValue(storagePath) {
+          return this.__store.getItem(storagePath).then(value => {
+            if (value === undefined)
+              return this.defaultValue;
+            return value;
+          });
+        }
+
+        isNew() {
+          if (this.__new === false)
+            return false;
+          this.__new = false;
+          return true;
+        }
+
+        ready() {
+          super.ready();
+          this.__configChanged(this.__config || {});
+        }
+
+        saveValue(value) {
+          return this.__store.setItem(this.key, value);
+        }
+
+        setStoredValue(storagePath, value) {
+          return this.__store.setItem(storagePath, value);
+        }
+
+        reset() {
+          this.destroy.then(() => {
+            this.__new = true;
+          });
+        }
+
+        initializeStoredValue() {
+          this.__store = localforage.createInstance(this.config || {});
+          return super.initializeStoredValue();
+        }
+      }
+
+      window.customElements.define(AppLocalForage.is, AppLocalForage);
+    </script>
+</dom-module>
